@@ -7,10 +7,13 @@ pub fn build(b: *std.Build) void {
 
     const sdl_c = b.dependency("sdl", .{});
 
-    const lib = b.addStaticLibrary(.{
+    const lib = b.addLibrary(.{
+        .linkage = .static,
         .name = "SDL2",
-        .target = target,
-        .optimize = optimize,
+        .root_module = b.addModule("SDL2", .{
+            .target = target,
+            .optimize = optimize,
+        }),
     });
 
     const src_root_path = sdl_c.path("src");
